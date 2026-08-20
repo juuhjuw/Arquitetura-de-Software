@@ -1,0 +1,21 @@
+
+flowchart TD
+
+subgraph API["API Gateway"]
+    Order["Pedidos<br>criar, listar, atualizar"]
+    Menu["Cardápio<br>consultar e gerenciar"]
+    DeliveryComp["Entregas<br>acompanhar e atualizar"]
+    PaymentComp["Pagamentos<br>processar e validar"]
+end
+
+Queue["Fila de Mensagens"]
+Notification["Serviço de Notificação"]
+Payment["Serviço de Pagamento"]
+
+Order -->|Consulta| Menu
+Order -->|Processa pagamento| PaymentComp
+Order -->|Aciona| DeliveryComp
+Order -->|Publica evento| Queue
+PaymentComp -->|Chama| Payment
+DeliveryComp -->|Notifica| Queue
+Queue -->|Consome| Notification

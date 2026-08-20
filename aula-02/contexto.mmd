@@ -1,0 +1,14 @@
+
+flowchart LR
+ Client(["Cliente<br>faz pedidos e acompanha"])
+ Restaurant(["Restaurante<br>gerencia cardápio e pedidos"])
+ Delivery(["Entregador<br>aceita e entrega pedidos"])
+ System["Sistema de Delivery"]
+ Payment["Serviço de Pagamento"]
+ Notification["Serviço de Notificação"]
+
+ Client -->|Faz pedido e acompanha| System
+ Restaurant -->|Gerencia cardápio e pedidos| System
+ Delivery -->|Aceita entrega e atualiza status| System
+ System -->|Processa pagamento| Payment
+ System -->|Envia notificações| Notification

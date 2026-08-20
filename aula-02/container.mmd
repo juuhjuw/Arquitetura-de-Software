@@ -1,0 +1,32 @@
+
+flowchart TD
+
+Client(["Cliente"])
+Restaurant(["Restaurante"])
+Delivery(["Entregador"])
+
+subgraph SD["Sistema de Delivery"]
+    App["App do Cliente"]
+    RestaurantApp["App do Restaurante"]
+    DeliveryApp["App do Entregador"]
+    API["API"]
+    DB[("Banco de Dados")]
+    Queue["Fila de Mensagens"]
+end
+
+Payment["Serviço de Pagamento"]
+Notification["Serviço de Notificação"]
+
+Client -->|Faz pedido| App
+Restaurant -->|Gerencia cardápio| RestaurantApp
+Delivery -->|Atualiza status| DeliveryApp
+
+App -->|Chama API| API
+RestaurantApp -->|Chama API| API
+DeliveryApp -->|Chama API| API
+
+API -->|Lê e grava| DB
+API -->|Publica eventos| Queue
+Queue -->|Processa pedidos assincronamente| API
+API -->|Processa pagamento| Payment
+API -->|Envia notificações| Notification

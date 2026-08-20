@@ -1,0 +1,73 @@
+
+classDiagram
+    class Order {
+        - id: String
+        - clientId: String
+        - restaurantId: String
+        - items: List~Item~
+        - total: Double
+        - status: OrderStatus
+        - createdAt: DateTime
+        - deliveredAt: DateTime
+        + createOrder(clientId, restaurantId, items)
+        + updateStatus(status)
+        + calculateTotal()
+        + cancelOrder()
+    }
+
+    class Item {
+        - id: String
+        - name: String
+        - quantity: Int
+        - price: Double
+        + calculateSubtotal()
+    }
+
+    class OrderStatus {
+        <<enumeration>>
+        PENDING
+        CONFIRMED
+        PREPARING
+        DELIVERING
+        DELIVERED
+        CANCELLED
+    }
+
+    class Payment {
+        - id: String
+        - orderId: String
+        - amount: Double
+        - method: PaymentMethod
+        - status: PaymentStatus
+        + processPayment()
+        + refundPayment()
+    }
+
+    class PaymentStatus {
+        <<enumeration>>
+        PENDING
+        APPROVED
+        DECLINED
+        REFUNDED
+    }
+
+    class NotificationService {
+        <<interface>>
+        + sendNotification(message, recipient)
+    }
+
+    class EmailNotification {
+        + sendNotification(message, recipient)
+    }
+
+    class SMSNotification {
+        + sendNotification(message, recipient)
+    }
+
+    Order --> OrderStatus : possui
+    Order --> Item : contém
+    Order --> Payment : gera
+    Payment --> PaymentStatus : possui
+    Order --> NotificationService : usa
+    EmailNotification ..|> NotificationService : implementa
+    SMSNotification ..|> NotificationService : implementa
