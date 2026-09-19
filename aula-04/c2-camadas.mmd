@@ -1,0 +1,27 @@
+flowchart TD
+    Seller(["Vendedor"])
+    Admin(["Administrador"])
+    Stock(["Equipe de Estoque"])
+
+    subgraph SV["Sistema de Vendas"]
+
+        subgraph APRES["Camada de Apresentação"]
+            WebApp["Aplicação Web"]
+        end
+
+        subgraph DOMINIO["Camada de Domínio"]
+            API["API / Backend - Regras de negócio"]
+        end
+
+        subgraph DADOS["Camada de Dados"]
+            DB[("Banco de Dados")]
+        end
+
+    end
+
+    Seller -->|Registra pedidos| WebApp
+    Admin -->|Gerencia produtos| WebApp
+    Stock -->|Controla estoque| WebApp
+
+    WebApp -->|Solicita operações| API
+    API -->|Consulta e persiste dados| DB
